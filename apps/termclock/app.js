@@ -88,6 +88,7 @@ Bangle.on('lock', function(lock) {
   updateBattery();
   draw();
 });
+Bangle.on('charging', draw);
 Bangle.setUI({
   mode : "clock",
   remove : function() {
@@ -96,5 +97,6 @@ Bangle.setUI({
     if (batteryTimeout) clearTimeout(batteryTimeout);
     batteryTimeout = undefined;
     Bangle.removeListener('lock',draw);
+    Bangle.removeListener('charging',draw);
   }});
 }
