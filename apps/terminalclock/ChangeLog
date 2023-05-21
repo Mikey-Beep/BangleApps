@@ -12,4 +12,5 @@
 0.11: Change date and time display
 0.12: Add battery percentage
 0.13: Add lock state
-0.14: Integrat lock with time
+0.14: Integrate lock with time
+0.15: Add charging indicator

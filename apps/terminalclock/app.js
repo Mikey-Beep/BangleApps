@@ -160,7 +160,8 @@
   };
 
   let drawBatteryPercent = function(pos){
-    drawLine(">Batt: " + E.getBattery(), pos);
+    let charging = Bangle.isCharging() ? ' +' : '';
+    drawLine(">Batt: " + E.getBattery() + charging, pos);
   }
 
   /* -----------------------------------------------
