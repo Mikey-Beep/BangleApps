@@ -32,9 +32,9 @@
   }
 
   if(process.env.HWVERSION == 2) {
-    var lineType = ['Date', 'HR', 'Motion', 'Alt', 'Steps', 'Battery', '>', 'Empty'];
+    var lineType = ['Date', 'HR', 'Motion', 'Alt', 'Steps', 'Battery', 'Locked', '>', 'Empty'];
   } else{
-    var lineType = ['Date', 'HR', 'Motion', 'Steps', '>', 'Empty'];
+    var lineType = ['Date', 'HR', 'Motion', 'Steps', 'Battery', 'Locked', '>', 'Empty'];
   }
   function getLineChooser(lineID){
     return {
