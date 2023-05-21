@@ -28,6 +28,7 @@
       // check settings and set default if needed
       this.showHRM = false;
       this.showAltitude = false;
+      this.showGPS = false;
       this.lock_precision = this.precision;
       this.unlock_precision = 1;
       if (this.HRMinConfidence === undefined) this.HRMinConfidence = 50;
@@ -48,6 +49,7 @@
         } 
         else if (this[k]==="HR") this.showHRM = true;
         else if (this[k]==="Alt") this.showAltitude = true && process.env.HWVERSION == 2;
+        else if (this[k]==="LatLong") this.showGPS = true;
       });
 
       // set the services (HRM, pressure sensor, etc....)
