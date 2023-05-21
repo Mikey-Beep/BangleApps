@@ -1,67 +1,51 @@
+{ // must be inside our own scope here so that when we are unloaded everything disappears
+  // we also define functions using 'let fn = function() {..}' for the same reason. function decls are global
+let drawTimeout;
 const fontColor=g.theme.dark?"#0f0":"#000";
-let paddingY=2,font6x8At4Size=32,font6x8At2Size=18,font6x8FirstTextSize=4,font6x8DefaultTextSize=2;
+let paddingY=2;
+let font6x8At4Size=32;
+let font6x8At2Size=18;
+let font6x8FirstTextSize=4;
+let font6x8DefaultTextSize=2;
 
-function draw() {
-  g.reset();
-  let curPos=1;
+// Actually draw the watch face
+let draw = function() {
+  g.reset().clearRect(Bangle.appRect); // clear whole background (w/o widgets)
   g.setFontAlign(-1,-1);
   g.setColor(fontColor);
-  var d=new Date();
-  drawTime(d,curPos);
-  curPos++;
-  drawDate(d,curPos);
-  curPos++;
-  drawBattery(curPos);
-  curPos++;
-  drawLine("",curPos);
-}
+  var date = new Date();
+  var timeStr = date.getHours().toString().padStart(2,0) + ":" + date.getMinutes().toString().padStart(2,0);
+  drawLine(timeStr, 1);
+  var dateStr = date.getFullYear() + "-" + (date.getMonth() + 1).toString().padStart(2,0) + "-" + date.getDate().toString().padStart(2,0);
+  drawLine(dateStr, 2);
 
-function drawLine(line,pos){
+  // queue next draw
+  if (drawTimeout) clearTimeout(drawTimeout);
+  drawTimeout = setTimeout(function() {
+    drawTimeout = undefined;
+    draw();
+  }, 60000 - (Date.now() % 60000));
+};
+
+let drawLine  = function(line, pos) {
   if(pos==1)
     g.setFont("6x8",font6x8FirstTextSize);
   else
     g.setFont("6x8",font6x8DefaultTextSize);
   let yPos=Bangle.appRect.y+paddingY*(pos-1)+font6x8At4Size*Math.min(1,pos-1)+font6x8At2Size*Math.max(0,pos-2);
   g.drawString(">"+line,5,yPos,true);
-}
+};
 
-function drawTime(d,pos){
-  var t=("0"+d.getHours()).slice(-2)+":"+("0"+d.getMinutes()).slice(-2);
-  var c=Bangle.isLocked()?"*":"";
-  drawLine(t+c,pos);
-}
-
-function drawDate(d,pos){
-  var y=d.getFullYear();
-  var m=d.getMonth()+1;
-  var dy=d.getDate();
-  var ds=y+"-"+("0"+m).slice(-2)+"-"+("0"+dy).slice(-2);
-  drawLine(ds,pos);
-}
-
-function drawBattery(pos){
-  var c=Bangle.isCharging()?" +":""
-  drawLine("Batt: "+E.getBattery()+c,pos);
-}
-
-g.clear();
-draw();
-var redraw = setInterval(draw,1000);
-Bangle.on('lcdPower',on=>{
-  if(on){
-    draw();
-    clearInterval(redraw);
-    redraw = setInterval(draw,1000);
-  }
-  else{
-    draw();
-    clearInterval(redraw);
-    redraw = setInterval(draw,1000);
-  }
-});
-Bangle.on('lock',locked=>{
-  draw();
-});
-Bangle.setUI("clock");
+// Show launcher when middle button pressed
+Bangle.setUI({
+  mode : "clock",
+  remove : function() {
+    // Called to unload all of the clock app
+    if (drawTimeout) clearTimeout(drawTimeout);
+    drawTimeout = undefined;
+  }});
+// Load widgets
 Bangle.loadWidgets();
-Bangle.drawWidgets();
+draw();
+setTimeout(Bangle.drawWidgets,0);
+}

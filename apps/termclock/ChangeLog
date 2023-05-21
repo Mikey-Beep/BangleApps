@@ -4,3 +4,4 @@
 0.04: Fix time and draw final line.
 0.05: Add battery and lock info.
 0.06: Expand event handling.
+0.07: Reduce power usage and regress to simple date & time.

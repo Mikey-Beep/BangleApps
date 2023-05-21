@@ -7,6 +7,7 @@ Graphics.prototype.setFontAnton = function(scale) {
 { // must be inside our own scope here so that when we are unloaded everything disappears
   // we also define functions using 'let fn = function() {..}' for the same reason. function decls are global
 let drawTimeout;
+const fontColor=g.theme.dark?"#0f0":"#000";
 
 // Actually draw the watch face
 let draw = function() {
