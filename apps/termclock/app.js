@@ -13,7 +13,7 @@ function drawLine(line, pos){
     g.setFont("6x8",font6x8DefaultTextSize);
   let yPos = Bangle.appRect.y + paddingY * (pos - 1) + font6x8At4Size * Math.min(1, pos-1) + font6x8At2Size * Math.max(0, pos-2);
   g.drawString(">" + line,5,yPos,true);
-};
+}
 
 function draw() {
   g.reset();
@@ -21,12 +21,11 @@ function draw() {
   g.setFontAlign(-1, -1);
   g.setColor(fontColor);
   var d = new Date();
-  var h = d.getHours(),m = d.getMinutes();
-  var time = h.toString().padStart(2, 0) + ":" + m.toString().padStart(2,0);
+  var time = d.toISOString().slice(11,16);
   drawLine(time, curPos);
   curPos++;
-  var dateStr = "    "+require("locale").date(d)+"    ";
-  drawLinw(dateStr,curPos);
+  var dateStr = d.toISOString().slice(0,10);
+  drawLine(dateStr,curPos);
   curPos++;
 }
 
