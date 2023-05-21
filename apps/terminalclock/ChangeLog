@@ -14,3 +14,4 @@
 0.13: Add lock state
 0.14: Integrate lock with time
 0.15: Add charging indicator
+0.16: Add GPS lat/long

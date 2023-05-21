@@ -74,6 +74,7 @@
         else if (this[line]==='Alt') drawAltitude(curPos);
         else if (this[line]==='Steps') drawStepCount(curPos);
         else if (this[line]==='Battery') drawBatteryPercent(curPos);
+        else if (this[line]==='LatLong') drawLatLong(curPos);
         else if (this[line]==='>') drawInput(curPos);
         curPos++;
       });
@@ -162,6 +163,11 @@
   let drawBatteryPercent = function(pos){
     let charging = Bangle.isCharging() ? ' +' : '';
     drawLine(">Batt: " + E.getBattery() + charging, pos);
+  }
+
+  let drawLatLong = function(pos){
+    let latlong = Bangle.getGPSFix()
+    drawLine(">GPS: " + latlong);
   }
 
   /* -----------------------------------------------
