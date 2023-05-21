@@ -14,13 +14,14 @@ let draw = function() {
   g.setFontAlign(-1,-1);
   g.setColor(fontColor);
   var date = new Date();
-  var timeStr = date.getHours().toString().padStart(2,0) + ":" + date.getMinutes().toString().padStart(2,0);
-  drawLine(timeStr, 1);
-  var dateStr = date.getFullYear() + "-" + (date.getMonth() + 1).toString().padStart(2,0) + "-" + date.getDate().toString().padStart(2,0);
-  drawLine(dateStr, 2);
-  drawLine("Locked: "+Bangle.isLocked(), 3);
-  drawLine("LCD: "+ Bangle.isLCDOn(),4);
-
+  var curPos = 1;
+  drawTime(date, curPos);
+  curPos++;
+  drawDate(date, curPos);
+  curPos++;
+  drawBattery(curPos);
+  curPos++;
+  drawLine("",curPos);
   // queue next draw
   if (drawTimeout) clearTimeout(drawTimeout);
   drawTimeout = setTimeout(function() {
@@ -29,7 +30,7 @@ let draw = function() {
   }, 60000 - (Date.now() % 60000));
 };
 
-let drawLine  = function(line, pos) {
+let drawLine = function(line, pos) {
   if(pos==1)
     g.setFont("6x8",font6x8FirstTextSize);
   else
@@ -38,7 +39,22 @@ let drawLine  = function(line, pos) {
   g.drawString(">"+line,5,yPos,true);
 };
 
-Bangle.on('lcdPower', draw);
+let drawTime = function(date, pos) {
+  var l = Bangle.isLocked()?"*":"";
+  var timeStr = date.getHours().toString().padStart(2,0) + ":" + date.getMinutes().toString().padStart(2,0);
+  drawLine(timeStr+l, pos);
+};
+
+let drawDate = function(date, pos) {
+  var dateStr = date.getFullYear() + "-" + (date.getMonth() + 1).toString().padStart(2,0) + "-" + date.getDate().toString().padStart(2,0);
+  drawLine(dateStr, 2);
+};
+
+let drawBattery = function(pos) {
+  var c = Bangle.isCharging()?" +":"";
+  drawLine(E.getBattery() + "%" + c, pos);
+};
+
 Bangle.on('lock', draw);
 // Show launcher when middle button pressed
 Bangle.setUI({
@@ -48,8 +64,5 @@ Bangle.setUI({
     if (drawTimeout) clearTimeout(drawTimeout);
     drawTimeout = undefined;
   }});
-// Load widgets
-Bangle.loadWidgets();
 draw();
-setTimeout(Bangle.drawWidgets,0);
 }
