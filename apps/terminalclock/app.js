@@ -73,6 +73,7 @@
         else if (this[line]==='Motion') drawMotion(curPos);
         else if (this[line]==='Alt') drawAltitude(curPos);
         else if (this[line]==='Steps') drawStepCount(curPos);
+        else if (this[line]==='Battery') drawBatteryPercent(curPos);
         else if (this[line]==='>') drawInput(curPos);
         curPos++;
       });
@@ -156,6 +157,10 @@
     let steps_formated = ">Motion: " + parseInt(health.movement);
     drawLine(steps_formated, pos);
   };
+
+  let drawBatteryPercent = function(pos){
+    drawLine(">Batt: " + E.getBattery(), pos);
+  }
 
   /* -----------------------------------------------
   Services functions (HRM, pressure, etc...)

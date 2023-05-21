@@ -32,7 +32,7 @@
   }
 
   if(process.env.HWVERSION == 2) {
-    var lineType = ['Date', 'HR', 'Motion', 'Alt', 'Steps', '>', 'Empty'];
+    var lineType = ['Date', 'HR', 'Motion', 'Alt', 'Steps', 'Battery', '>', 'Empty'];
   } else{
     var lineType = ['Date', 'HR', 'Motion', 'Steps', '>', 'Empty'];
   }
