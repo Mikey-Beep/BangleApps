@@ -167,7 +167,7 @@
 
   let drawLatLong = function(pos){
     let latlong = Bangle.getGPSFix()
-    drawLine(">GPS: " + latlong);
+    drawLine(">GPS: " + latlong, pos);
   }
 
   /* -----------------------------------------------
@@ -180,6 +180,9 @@
     }
     if(clock.showAltitude){
       Bangle.setBarometerPower(true, "terminalclock");
+    }
+    if (clock.showGPS){
+      Bangle.setGPSPower(true, "terminalclock");
     }
     if(clock.powerSave){
       if(clock.turnOffServiceTimeout) clearTimeout(clock.turnOffServiceTimeout);
@@ -195,6 +198,9 @@
     }
     if(clock.showAltitude){
       Bangle.setBarometerPower(false, "terminalclock");
+    }
+    if(clock.showGPS){
+      Bangle.setGPSPower(false, "terminalclock");
     }
   };
 
