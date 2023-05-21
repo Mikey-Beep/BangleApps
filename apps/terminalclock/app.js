@@ -97,6 +97,7 @@
       if (this.onLock) Bangle.removeListener('lock', this.onLock);
       if (this.onHRM) Bangle.removeListener('HRM', this.onHRM);
       if (this.onPressure) Bangle.removeListener('pressure', this.onPressure);
+      if (this.onGPS) Bangle.removeListener("GPS", this.onGPS);
     }
 
   });
@@ -236,6 +237,7 @@
   Bangle.on('pressure', clock.onPressure);
 
   clock.onGPS = gpsFix => {
+    Terminal.println(gpsFix)
     lat = gpsFix.lat;
     lon = gpsFix.lon;
   };
