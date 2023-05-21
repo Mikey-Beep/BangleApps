@@ -35,7 +35,7 @@ let drawLine = function(line, pos) {
     g.setFont("6x8",font6x8FirstTextSize);
   else
     g.setFont("6x8",font6x8DefaultTextSize);
-  let yPos=Bangle.appRect.y+paddingY*(pos-1)+font6x8At4Size*Math.min(1,pos-1)+font6x8At2Size*Math.max(0,pos-2);
+  let yPos=24+Bangle.appRect.y+paddingY*(pos-1)+font6x8At4Size*Math.min(1,pos-1)+font6x8At2Size*Math.max(0,pos-2);
   g.drawString(">"+line,5,yPos,true);
 };
 
@@ -55,6 +55,8 @@ let drawBattery = function(pos) {
   drawLine("Batt: " + E.getBattery() + "%" + c, pos);
 };
 
+g.clear();
+draw();
 Bangle.on('lock', draw);
 // Show launcher when middle button pressed
 Bangle.setUI({
@@ -64,7 +66,6 @@ Bangle.setUI({
     if (drawTimeout) clearTimeout(drawTimeout);
     drawTimeout = undefined;
   }});
-draw();
 Bangle.loadWidgets();
 Bangle.drawWidgets();
 }
