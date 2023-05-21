@@ -2,6 +2,8 @@
   const locale = require("locale");
   let heartRate = 0;
   let altitude = -9001;
+  let lat = 0;
+  let lon = 0;
 
   const fontColor = g.theme.dark ? "#0f0" : "#000";
   // handling the differents versions of the Banglejs smartwatch screen sizes
@@ -168,8 +170,7 @@
   }
 
   let drawLatLong = function(pos){
-    let latlong = Bangle.getGPSFix()
-    drawLine(">GPS: " + latlong.lat + " " + latlong.lon, pos);
+    drawLine(">GPS: " + lat + " " + lon, pos);
   }
 
   /* -----------------------------------------------
@@ -234,6 +235,11 @@
   };
   Bangle.on('pressure', clock.onPressure);
 
+  clock.onGPS = gpsFix => {
+    lat = gpsFix.lat;
+    lon = gpsFix.lon;
+  };
+  Bangle.on('GPS', clock.onGPS);  
 
   /* -------------------------------------------------
   Clock related functions but not in the ClockFace module
