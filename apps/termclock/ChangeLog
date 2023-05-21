@@ -7,3 +7,4 @@
 0.07: Reduce power usage and regress to simple date & time.
 0.08: Add lock and LCD listeners.
 0.09: Add battery percentage.
+0.10: Add battery prefix.

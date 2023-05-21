@@ -52,7 +52,7 @@ let drawDate = function(date, pos) {
 
 let drawBattery = function(pos) {
   var c = Bangle.isCharging()?" +":"";
-  drawLine(E.getBattery() + "%" + c, pos);
+  drawLine("Batt: " + E.getBattery() + "%" + c, pos);
 };
 
 Bangle.on('lock', draw);
