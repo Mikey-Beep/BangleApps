@@ -19,8 +19,8 @@ let draw = function() {
   curPos++;
   drawDate(date, curPos);
   curPos++;
-  drawBattery(curPos);
-  curPos++;
+  //drawBattery(curPos);
+  //curPos++;
   drawLine("",curPos);
   // queue next draw
   if (drawTimeout) clearTimeout(drawTimeout);
@@ -65,4 +65,6 @@ Bangle.setUI({
     drawTimeout = undefined;
   }});
 draw();
+Bangle.loadWidgets();
+Bangle.drawWidgets();
 }

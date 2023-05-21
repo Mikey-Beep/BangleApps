@@ -8,3 +8,4 @@
 0.08: Add lock and LCD listeners.
 0.09: Add battery percentage.
 0.10: Add battery prefix.
+0.11: Add widgets.
