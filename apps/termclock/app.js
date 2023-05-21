@@ -56,6 +56,8 @@ let drawBattery = function(pos) {
 };
 
 g.clear();
+Bangle.loadWidgets();
+Bangle.drawWidgets();
 draw();
 Bangle.on('lock', draw);
 // Show launcher when middle button pressed
@@ -67,6 +69,4 @@ Bangle.setUI({
     drawTimeout = undefined;
     Bangle.removeListener('lock',draw)
   }});
-Bangle.loadWidgets();
-Bangle.drawWidgets();
 }
