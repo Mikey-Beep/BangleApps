@@ -74,7 +74,6 @@
         else if (this[line]==='Alt') drawAltitude(curPos);
         else if (this[line]==='Steps') drawStepCount(curPos);
         else if (this[line]==='Battery') drawBatteryPercent(curPos);
-        else if (this[line]==='Locked') drawLocked(curPos);
         else if (this[line]==='>') drawInput(curPos);
         curPos++;
       });
@@ -118,7 +117,8 @@
   let drawTime = function(now, pos){
     let h = now.getHours();
     let m = now.getMinutes();
-    let time = ">" + ("0"+h).substr(-2) + ":" + ("0"+m).substr(-2);
+    let l = Bangle.isLocked() ? '*' : '';
+    let time = ">" + ("0"+h).substr(-2) + ":" + ("0"+m).substr(-2) + l;
     drawLine(time, pos);
   };
 
@@ -161,10 +161,6 @@
 
   let drawBatteryPercent = function(pos){
     drawLine(">Batt: " + E.getBattery(), pos);
-  }
-
-  let drawLocked = function(pos){
-    drawLine(">Lock: " + Bangle.isLocked(), pos)
   }
 
   /* -----------------------------------------------
