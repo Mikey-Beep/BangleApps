@@ -17,3 +17,4 @@
 0.17: Add charging listener.
 0.18: Add swipable widgets.
 0.19: Add temperature and altitude.
+0.20: Enhance altitude, remove temperature.

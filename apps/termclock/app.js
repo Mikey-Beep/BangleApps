@@ -26,8 +26,7 @@ let update = function() {
 
 let updateAlt = function() {
   Bangle.getPressure().then(d=>{
-    temp=d.temperature;
-    alt=d.altitude;
+    alt=Math.round(d.altitude * 10) / 10;
   });
 };
 
@@ -49,8 +48,6 @@ let draw = function() {
   curPos++;
   drawBattery(curPos);
   curPos++;
-  drawTemp(curPos);
-  curPos++;
   drawAlt(curPos);
   curPos++;
   drawLine("",curPos);
@@ -66,7 +63,7 @@ let drawLine = function(line, pos) {
     g.setFont("6x8",font6x8FirstTextSize);
   else
     g.setFont("6x8",font6x8DefaultTextSize);
-  let yPos=Bangle.appRect.y+paddingY*(pos-1)+font6x8At4Size*Math.min(1,pos-1)+font6x8At2Size*Math.max(0,pos-2);
+  let yPos=paddingY*(pos-1)+font6x8At4Size*Math.min(1,pos-1)+font6x8At2Size*Math.max(0,pos-2);
   g.drawString(">"+line,5,yPos,true);
 };
 
@@ -88,12 +85,8 @@ let drawBattery = function(pos) {
   drawLine("Batt: " + battMean + "%" + c, pos);
 };
 
-let drawTemp = function(pos) {
-  drawLine('Temp: ' + temp, pos);
-};
-
 let drawAlt = function(pos) {
-  drawLine('Alt: ' + alt, pos);
+  drawLine('Alt: ' + alt + 'm', pos);
 };
 
 g.clear();
