@@ -12,3 +12,4 @@
 0.12: Deactivate clock for notifications.
 0.13: Unregister event handler.
 0.14: Change draw order.
+0.15: Add moving average battery data.
