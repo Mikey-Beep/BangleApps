@@ -73,7 +73,7 @@ let drawBattery = function(pos) {
 
 g.clear();
 Bangle.loadWidgets();
-Bangle.drawWidgets();
+require("widget_utils").swipeOn();
 updateBattery();
 draw();
 Bangle.on('lock', function(lock) {
@@ -98,5 +98,6 @@ Bangle.setUI({
     batteryTimeout = undefined;
     Bangle.removeListener('lock',draw);
     Bangle.removeListener('charging',draw);
+    require("widget_utils").show()
   }});
 }

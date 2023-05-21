@@ -15,3 +15,4 @@
 0.15: Add moving average battery data.
 0.16: Allowed for different polling locked vs unlocked.
 0.17: Add charging listener.
+0.18: Add swipable widgets.
