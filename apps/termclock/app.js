@@ -18,6 +18,8 @@ let draw = function() {
   drawLine(timeStr, 1);
   var dateStr = date.getFullYear() + "-" + (date.getMonth() + 1).toString().padStart(2,0) + "-" + date.getDate().toString().padStart(2,0);
   drawLine(dateStr, 2);
+  drawLine("Locked: "+Bangle.isLocked(), 3);
+  drawLine("LCD: "+ Bangle.isLCDOn(),4);
 
   // queue next draw
   if (drawTimeout) clearTimeout(drawTimeout);
@@ -36,6 +38,8 @@ let drawLine  = function(line, pos) {
   g.drawString(">"+line,5,yPos,true);
 };
 
+Bangle.on('lcdPower', draw);
+Bangle.on('lock', draw);
 // Show launcher when middle button pressed
 Bangle.setUI({
   mode : "clock",
