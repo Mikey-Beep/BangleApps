@@ -10,3 +10,4 @@
 0.10: Add battery prefix.
 0.11: Add widgets.
 0.12: Deactivate clock for notifications.
+0.13: Unregister event handler.

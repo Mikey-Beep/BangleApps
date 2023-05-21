@@ -10,7 +10,7 @@ let font6x8DefaultTextSize=2;
 
 // Actually draw the watch face
 let draw = function() {
-  g.reset().clearRect(Bangle.appRect); // clear whole background (w/o widgets)
+  g.clearRect(0, 24, g.getWidth(), g.getHeight() - 24); // clear whole background (w/o widgets)
   g.setFontAlign(-1,-1);
   g.setColor(fontColor);
   var date = new Date();
@@ -35,7 +35,7 @@ let drawLine = function(line, pos) {
     g.setFont("6x8",font6x8FirstTextSize);
   else
     g.setFont("6x8",font6x8DefaultTextSize);
-  let yPos=24+Bangle.appRect.y+paddingY*(pos-1)+font6x8At4Size*Math.min(1,pos-1)+font6x8At2Size*Math.max(0,pos-2);
+  let yPos=Bangle.appRect.y+paddingY*(pos-1)+font6x8At4Size*Math.min(1,pos-1)+font6x8At2Size*Math.max(0,pos-2);
   g.drawString(">"+line,5,yPos,true);
 };
 
@@ -65,6 +65,7 @@ Bangle.setUI({
     // Called to unload all of the clock app
     if (drawTimeout) clearTimeout(drawTimeout);
     drawTimeout = undefined;
+    Bangle.removeListener('lock',draw)
   }});
 Bangle.loadWidgets();
 Bangle.drawWidgets();
