@@ -116,15 +116,13 @@
   let drawTime = function(now, pos){
     let h = now.getHours();
     let m = now.getMinutes();
-    let time = ">" + (""+h).substr(-2) + ":" + ("0"+m).substr(-2);
+    let time = ">" + ("0"+h).substr(-2) + ":" + ("0"+m).substr(-2);
     drawLine(time, pos);
   };
 
   let drawDate = function(now, pos){
-    let dow = locale.dow(now, 1);
-    let date = locale.date(now, 1).substr(0,6) + locale.date(now, 1).substr(-2);
-    let locale_date = ">" + dow + " " + date;
-    drawLine(locale_date, pos);
+    let date = ">" + now.toISOString().substr(0,10);
+    drawLine(date, pos);
   };
 
   let drawInput = function(pos){
