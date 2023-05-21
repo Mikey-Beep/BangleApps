@@ -17,3 +17,4 @@
 0.16: Add GPS lat/long
 0.17: Turn GPS on and off
 0.18: Actually turn GPS on and off
+0.19: Resolve GPS object

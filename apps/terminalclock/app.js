@@ -169,7 +169,7 @@
 
   let drawLatLong = function(pos){
     let latlong = Bangle.getGPSFix()
-    drawLine(">GPS: " + latlong, pos);
+    drawLine(">GPS: " + latlong.lat + " " + latlong.lon, pos);
   }
 
   /* -----------------------------------------------
