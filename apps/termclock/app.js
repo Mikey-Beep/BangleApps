@@ -1,8 +1,8 @@
 { // must be inside our own scope here so that when we are unloaded everything disappears
   // we also define functions using 'let fn = function() {..}' for the same reason. function decls are global
 let drawTimeout;
-let batteryTimeout;
-let batteryPolling = 10000;
+let dataTimeout;
+let dataPolling = 10000;
 let drawPolling = 10000;
 const fontColor=g.theme.dark?"#0f0":"#000";
 let paddingY=2;
@@ -11,20 +11,34 @@ let font6x8At2Size=18;
 let font6x8FirstTextSize=4;
 let font6x8DefaultTextSize=2;
 const batteryVals = [];
+let alt = '?';
+let temp = '?';
+
+let update = function() {
+  updateAlt();
+  updateBattery();
+  if (dataTimeout) clearTimeout(dataTimeout);
+  dataTimeout = setTimeout(function(){
+    dataTimeout = undefined;
+    update();
+  }, dataPolling - (Date.now() % dataPolling));
+};
+
+let updateAlt = function() {
+  Bangle.getPressure().then(d=>{
+    temp=d.temperature;
+    alt=d.altitude;
+  });
+};
 
 let updateBattery = function() {
   batteryVals.push(E.getBattery());
   if (batteryVals.length > 10) batteryVals.shift();
-  if (batteryTimeout) clearTimeout(batteryTimeout);
-  batteryTimeout = setTimeout(function(){
-    batteryTimeout = undefined;
-    updateBattery();
-  }, batteryPolling - (Date.now() % batteryPolling));
 };
 
 // Actually draw the watch face
 let draw = function() {
-  g.clearRect(0, 24, g.getWidth(), g.getHeight() - 24); // clear whole background (w/o widgets)
+  g.clear();
   g.setFontAlign(-1,-1);
   g.setColor(fontColor);
   let date = new Date();
@@ -35,8 +49,11 @@ let draw = function() {
   curPos++;
   drawBattery(curPos);
   curPos++;
+  drawTemp(curPos);
+  curPos++;
+  drawAlt(curPos);
+  curPos++;
   drawLine("",curPos);
-  // queue next draw
   if (drawTimeout) clearTimeout(drawTimeout);
   drawTimeout = setTimeout(function() {
     drawTimeout = undefined;
@@ -71,21 +88,29 @@ let drawBattery = function(pos) {
   drawLine("Batt: " + battMean + "%" + c, pos);
 };
 
+let drawTemp = function(pos) {
+  drawLine('Temp: ' + temp, pos);
+};
+
+let drawAlt = function(pos) {
+  drawLine('Alt: ' + alt, pos);
+};
+
 g.clear();
 Bangle.loadWidgets();
 require("widget_utils").swipeOn();
-updateBattery();
+update();
 draw();
 Bangle.on('lock', function(lock) {
   if (lock) {
-    batteryPolling = 60000;
+    dataPolling = 60000;
     drawPolling = 60000;
   }
   else {
-    batteryPolling = 10000;
+    dataPolling = 10000;
     drawPolling = 10000;
   }
-  updateBattery();
+  update();
   draw();
 });
 Bangle.on('charging', draw);
@@ -94,10 +119,10 @@ Bangle.setUI({
   remove : function() {
     if (drawTimeout) clearTimeout(drawTimeout);
     drawTimeout = undefined;
-    if (batteryTimeout) clearTimeout(batteryTimeout);
-    batteryTimeout = undefined;
+    if (dataTimeout) clearTimeout(dataTimeout);
+    dataTimeout = undefined;
     Bangle.removeListener('lock',draw);
     Bangle.removeListener('charging',draw);
-    require("widget_utils").show()
+    require("widget_utils").show();
   }});
 }
