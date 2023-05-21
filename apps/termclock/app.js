@@ -46,10 +46,22 @@ function drawBattery(pos){
 
 g.clear();
 draw();
-setInterval(draw,60000);
+var redraw = setInterval(draw,1000);
 Bangle.on('lcdPower',on=>{
   if(on){
     draw();
+    clearInterval(redraw);
+    redraw = setInterval(draw,1000);
+  }
+  else{
+    draw();
+    clearInterval(redraw);
+    redraw = setInterval(draw,1000);
   }
 });
+Bangle.on('lock',locked=>{
+  draw();
+});
 Bangle.setUI("clock");
+Bangle.loadWidgets();
+Bangle.drawWidgets();

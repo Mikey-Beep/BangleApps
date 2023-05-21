@@ -3,3 +3,4 @@
 0.03: Simplify date & time display.
 0.04: Fix time and draw final line.
 0.05: Add battery and lock info.
+0.06: Expand event handling.
