@@ -13,3 +13,4 @@
 0.13: Unregister event handler.
 0.14: Change draw order.
 0.15: Add moving average battery data.
+0.16: Allowed for different polling locked vs unlocked.

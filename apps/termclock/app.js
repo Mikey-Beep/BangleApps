@@ -2,6 +2,8 @@
   // we also define functions using 'let fn = function() {..}' for the same reason. function decls are global
 let drawTimeout;
 let batteryTimeout;
+let batteryPolling = 10000;
+let drawPolling = 10000;
 const fontColor=g.theme.dark?"#0f0":"#000";
 let paddingY=2;
 let font6x8At4Size=32;
@@ -17,8 +19,8 @@ let updateBattery = function() {
   batteryTimeout = setTimeout(function(){
     batteryTimeout = undefined;
     updateBattery();
-  }, 10000 - (Date.now() % 10000));
-}
+  }, batteryPolling - (Date.now() % batteryPolling));
+};
 
 // Actually draw the watch face
 let draw = function() {
@@ -39,7 +41,7 @@ let draw = function() {
   drawTimeout = setTimeout(function() {
     drawTimeout = undefined;
     draw();
-  }, 60000 - (Date.now() % 60000));
+  }, drawPolling - (Date.now() % drawPolling));
 };
 
 let drawLine = function(line, pos) {
@@ -65,7 +67,7 @@ let drawDate = function(date, pos) {
 let drawBattery = function(pos) {
   let c = Bangle.isCharging()?" +":"";
   let battSum = batteryVals.reduce((a,b)=>a+b,0);
-  let battMean = (battSum / batteryVals.length) || '?';
+  let battMean = Math.round((battSum / batteryVals.length)) || '?';
   drawLine("Batt: " + battMean + "%" + c, pos);
 };
 
@@ -74,7 +76,18 @@ Bangle.loadWidgets();
 Bangle.drawWidgets();
 updateBattery();
 draw();
-Bangle.on('lock', draw);
+Bangle.on('lock', function(lock) {
+  if (lock) {
+    batteryPolling = 60000;
+    drawPolling = 60000;
+  }
+  else {
+    batteryPolling = 10000;
+    drawPolling = 10000;
+  }
+  updateBattery();
+  draw();
+});
 Bangle.setUI({
   mode : "clock",
   remove : function() {
