@@ -3,7 +3,7 @@
   "name": "Term Clock",
   "shortName":"Term Clock",
   "description": "Funky description here",
-  "version":"0.20",
+  "version":"0.21",
   "icon": "app.png",
   "type": "clock",
   "tags": "clock",

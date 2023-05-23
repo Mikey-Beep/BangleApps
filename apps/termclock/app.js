@@ -11,23 +11,14 @@ let font6x8At2Size=18;
 let font6x8FirstTextSize=4;
 let font6x8DefaultTextSize=2;
 const batteryVals = [];
-let alt = '?';
-let temp = '?';
 
 let update = function() {
-  updateAlt();
   updateBattery();
   if (dataTimeout) clearTimeout(dataTimeout);
   dataTimeout = setTimeout(function(){
     dataTimeout = undefined;
     update();
   }, dataPolling - (Date.now() % dataPolling));
-};
-
-let updateAlt = function() {
-  Bangle.getPressure().then(d=>{
-    alt=Math.round(d.altitude * 10) / 10;
-  });
 };
 
 let updateBattery = function() {
@@ -47,8 +38,6 @@ let draw = function() {
   drawDate(date, curPos);
   curPos++;
   drawBattery(curPos);
-  curPos++;
-  drawAlt(curPos);
   curPos++;
   drawLine("",curPos);
   if (drawTimeout) clearTimeout(drawTimeout);
@@ -83,10 +72,6 @@ let drawBattery = function(pos) {
   let battSum = batteryVals.reduce((a,b)=>a+b,0);
   let battMean = Math.round((battSum / batteryVals.length)) || '?';
   drawLine("Batt: " + battMean + "%" + c, pos);
-};
-
-let drawAlt = function(pos) {
-  drawLine('Alt: ' + alt + 'm', pos);
 };
 
 g.clear();

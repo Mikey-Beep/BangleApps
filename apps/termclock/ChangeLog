@@ -18,3 +18,4 @@
 0.18: Add swipable widgets.
 0.19: Add temperature and altitude.
 0.20: Enhance altitude, remove temperature.
+0.21: Remove altitude.
